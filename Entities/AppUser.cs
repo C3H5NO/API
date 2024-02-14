@@ -1,17 +1,18 @@
 ﻿using API.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities;
 
 #nullable disable
 
-public class AppUser
+public class AppUser : IdentityUser<int>
 {
-    //snippet: typing "prop" then press tap
-    public int Id { get; set; }
-    public string UserName { get; set; }
+    // public int Id { get; set; }
+    // public string UserName { get; set; }
 
-    public byte[] PasswordHash { get; set; }
-    public byte[] PasswordSalt { get; set; }
+    // public byte[] PasswordHash { get; set; }
+    // public byte[] PasswordSalt { get; set; }
+    public ICollection<AppUserRole> UserRoles { get; set; }
     public DateOnly BirthDate { get; set; }
     public int Age {get {return this.BirthDate.CalculateAge();} }
     public string Aka { get; set; }
