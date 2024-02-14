@@ -33,6 +33,13 @@ public static class JwtServiceExtensions
                 ValidateAudience = false,
             };
         });
+
+        services.AddAuthorization(opts =>
+        {
+            opts.AddPolicy("AdminRole", policy => policy.RequireRole("Administrator"));
+            opts.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Administrator", "Moderator"));
+        });
+        
         return services;
     }
 }

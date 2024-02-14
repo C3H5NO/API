@@ -9,7 +9,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-//[Authorize]
 public class UsersController : BaseApiController
 {
     private readonly IImageService _imageService;
@@ -32,6 +31,7 @@ public class UsersController : BaseApiController
     
     [AllowAnonymous]
 
+    [Authorize(Roles = "Administrator")]
     [HttpGet]
     public async Task<ActionResult<PageList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
@@ -63,6 +63,7 @@ public class UsersController : BaseApiController
         return _mapper.Map<MemberDto>(user);
     }
 
+    [Authorize(Roles = "Administrator,Moderator,Member")]
     [HttpGet("username/{username}")]
     public async Task<ActionResult<MemberDto?>> GetUserByUserName(string username)
     {
