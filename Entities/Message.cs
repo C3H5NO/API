@@ -15,4 +15,5 @@ public class Message
     public string? RecipientUsername { get; set; }
     public AppUser? Sender { get; set; }
     public AppUser? Recipient { get; set; }
+    
 }
