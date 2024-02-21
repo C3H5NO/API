@@ -16,12 +16,14 @@ public class MessageHub : Hub
     private readonly IMessageRepository _messageRepository;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IHubContext<PresenceHub> _presenceHub;
 
-    public MessageHub(IMessageRepository messageRepository, IUserRepository userRepository, IMapper mapper)
+    public MessageHub(IMessageRepository messageRepository, IUserRepository userRepository, IMapper mapper, IHubContext<PresenceHub> presenceHub)
     {
         _messageRepository = messageRepository;
         _userRepository = userRepository;
         _mapper = mapper;
+        _presenceHub = presenceHub;
     }
 
     private async Task<bool> addToMessageGroup(string groupName)
@@ -83,7 +85,8 @@ public class MessageHub : Hub
         var sender = await _userRepository.GetUserByUserNameAsync(username);
         var recipient = await _userRepository.GetUserByUserNameAsync(createMessageDto!.RecipientUsername);
 
-        if (recipient is null || sender?.UserName is null) throw new HubException("not found");
+        if (recipient is null || sender?.UserName is null)
+            throw new HubException("not found");
         var message = new Message
         {
             Sender = sender,
